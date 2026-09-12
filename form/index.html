@@ -479,9 +479,13 @@ function submitVisual(){
   post({...S.data,autoSave:false,complete:true}); goToStep(6);
 }
 function post(payload){
-  const EP='https://script.google.com/macros/s/AKfycbwNQfLtAOGamQ4hE2Prpxj9ELdOi2l1Pot111HiCxd8zdxSsZMU808Xk21uh0soimJ1gw/exec';
+  const CRM_API='https://edgeform-crm-api.edgeformmedia.workers.dev/api/submissions';
+  const LEGACY_MEDIA_EP='https://script.google.com/macros/s/AKfycbwNQfLtAOGamQ4hE2Prpxj9ELdOi2l1Pot111HiCxd8zdxSsZMU808Xk21uh0soimJ1gw/exec';
   payload.source='edgeform-form'; payload.timestamp=new Date().toISOString();
-  fetch(EP,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(()=>{});
+  const crmPayload={...payload,hasSketch:Boolean(payload.canvasImage)}; delete crmPayload.canvasImage;
+  fetch(CRM_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(crmPayload)}).catch(()=>{});
+  // Keep the media bridge during migration so visual sketches still reach Drive.
+  fetch(LEGACY_MEDIA_EP,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(()=>{});
 }
 
 // ═══════════════════════════════════════════════════
