@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Get Started — Edgeform Media</title>
+<title>Start a Conversation — EFMG</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -134,6 +134,7 @@ textarea.input-field{resize:vertical;min-height:100px;line-height:1.6;}
 }
 footer{position:relative;z-index:5;text-align:center;padding:24px;font-size:12px;color:rgba(255,255,255,.18);border-top:1px solid rgba(255,255,255,.05);}
 </style>
+<link rel="stylesheet" href="form-theme.css">
 </head>
 <body>
 
@@ -141,11 +142,20 @@ footer{position:relative;z-index:5;text-align:center;padding:24px;font-size:12px
 <div class="page-grid"></div>
 
 <nav>
-  <a href="index.html" class="nav-logo">
-    <img src="logo.png" alt="Edgeform Media Agency" class="nav-logo-img">
+  <a href="/" class="nav-logo" aria-label="Edgeform Media Group home">
+    <b>EFMG</b><span>EDGEFORM<br>MEDIA GROUP</span>
   </a>
   <div class="nav-step-indicator">Step <span id="stepCounter">1</span> of <span id="totalSteps">5</span></div>
 </nav>
+
+<aside class="form-context" aria-label="About this brief">
+  <span class="context-kicker">New business / confidential brief</span>
+  <div>
+    <h1>Bring us the<br><em>complicated part.</em></h1>
+    <p>Tell us where the commercial system is slowing down. We’ll turn the opportunity into a clear next move.</p>
+  </div>
+  <div class="context-meta"><span>Brand</span><span>Demand</span><span>Revenue</span></div>
+</aside>
 
 <div class="form-wrapper">
   <div class="progress-track"><div class="progress-dots" id="progressDots"></div></div>
@@ -219,7 +229,7 @@ footer{position:relative;z-index:5;text-align:center;padding:24px;font-size:12px
     <div class="step" id="step-4">
       <p class="step-eyebrow">Your business</p>
       <h1 class="step-title">What type of<br><em>business do you run?</em></h1>
-      <p class="step-sub">HVAC, plumbing, landscaping, dental — whatever it is, we've got you.</p>
+      <p class="step-sub">Tell us the market you serve and what your customers come to you for.</p>
       <div class="input-group">
         <label class="input-label" for="businessType">Business Type</label>
         <input class="input-field" type="text" id="businessType" placeholder="e.g. HVAC Contractor, Plumber, Salon...">
@@ -373,13 +383,13 @@ footer{position:relative;z-index:5;text-align:center;padding:24px;font-size:12px
       <h1 class="step-title" style="text-align:center;margin-bottom:16px">We'll be in touch<br><em>very soon.</em></h1>
       <p class="step-sub" style="text-align:center;margin-bottom:32px">We've received everything we need. Expect a call or text within 24 hours — your <strong>free demo</strong> will be ready shortly after.</p>
       <div class="divider"></div>
-      <a href="index.html" class="btn-primary" style="display:block;text-align:center;text-decoration:none;">← Back to Edgeform</a>
+      <a href="/" class="btn-primary" style="display:block;text-align:center;text-decoration:none;">← Back to Edgeform</a>
     </div>
 
   </div>
 </div>
 
-<footer>© 2026 Edgeform Media. All rights reserved.</footer>
+<footer>© 2026 Edgeform Media Group. Confidential by default.</footer>
 
 <script>
 // ── STATE ────────────────────────────────────────────────────
