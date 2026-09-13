@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact Us | Edgeform Marketing Group</title><link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>Let's Talk | Edgeform Marketing Group</title><link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-
 <style>
 :root {
   --black:#000000;--white:#ffffff;--blue:#0071e3;--blue-hover:#0077ed;--accent:#2997ff;
@@ -148,13 +147,13 @@ footer{position:relative;z-index:5;text-align:center;padding:24px;font-size:12px
   <div class="nav-step-indicator">Step <span id="stepCounter">1</span> of <span id="totalSteps">5</span></div>
 </nav>
 
-<aside class="form-context" aria-label="About this brief">
-  <span class="context-kicker">New business enquiry</span>
+<aside class="form-context" aria-label="About this inquiry">
+  <span class="context-kicker" id="contextKicker">New business enquiry</span>
   <div>
     <h1>Start a<br><em>conversation.</em></h1>
-    <p>Share your objectives and a member of our team will respond within one business day.</p>
+    <p id="contextCopy">Websites, CRM systems, sales strategy, or creator partnerships — tell us what you need and we'll route it to the right team.</p>
   </div>
-  <div class="context-meta"><span>Brand</span><span>Demand</span><span>Revenue</span></div>
+  <div class="context-meta"><span>Websites</span><span>CRM</span><span>Consulting</span><span>Creators</span></div>
 </aside>
 
 <div class="form-wrapper">
@@ -163,40 +162,79 @@ footer{position:relative;z-index:5;text-align:center;padding:24px;font-size:12px
   <div class="form-card" id="formCard">
     <div class="auto-save-badge" id="autoSaveBadge">✓ Info saved</div>
 
-    <!-- STEP 1 -->
-    <div class="step active" id="step-1">
-      <p class="step-eyebrow">Let's get started</p>
-      <h1 class="step-title">Who are we<br><em>working with?</em></h1>
+    <!-- ═══ SHARED ═══ -->
+
+    <div class="step active" id="step-type">
+      <p class="step-eyebrow">Let's talk</p>
+      <h1 class="step-title">What brings you<br><em>to Edgeform?</em></h1>
+      <p class="step-sub">Pick the closest fit — you'll add the details in a moment.</p>
+      <div class="choice-group path-group">
+        <button class="choice-btn" data-type="website" onclick="chooseType('website')">
+          <span class="choice-icon">🌐</span><span>A new or better website</span>
+          <span class="choice-desc">Design, rebuilds, booking — a site that actually converts.</span>
+        </button>
+        <button class="choice-btn" data-type="crm" onclick="chooseType('crm')">
+          <span class="choice-icon">⚙️</span><span>A CRM or sales system</span>
+          <span class="choice-desc">Pipelines, follow-up automations, one view of every lead.</span>
+        </button>
+        <button class="choice-btn" data-type="consulting" onclick="chooseType('consulting')">
+          <span class="choice-icon">📈</span><span>Sales &amp; marketing consulting</span>
+          <span class="choice-desc">Strategy, offers, and a sales process that closes.</span>
+        </button>
+        <button class="choice-btn" data-type="sponsor" onclick="chooseType('sponsor')">
+          <span class="choice-icon">🤝</span><span>Find an influencer for my business</span>
+          <span class="choice-desc">We match you with creators your market already follows.</span>
+        </button>
+        <button class="choice-btn" data-type="creator" onclick="chooseType('creator')">
+          <span class="choice-icon">🎥</span><span>Become an Edgeform creator</span>
+          <span class="choice-desc">Get paired with brands that need your audience.</span>
+        </button>
+        <button class="choice-btn" data-type="other" onclick="chooseType('other')">
+          <span class="choice-icon">💬</span><span>Something else</span>
+          <span class="choice-desc">Partnerships, press, or anything that doesn't fit above.</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="step" id="step-contact">
+      <p class="step-eyebrow">About you</p>
+      <h1 class="step-title" id="contactTitle">Who are we<br><em>talking to?</em></h1>
       <p class="step-sub">We'll use this to reach out. No spam — ever.</p>
       <div class="input-group">
         <label class="input-label" for="name">Full Name</label>
-        <input class="input-field" type="text" id="name" placeholder="e.g. Carlos Rivera" autocomplete="name">
+        <input class="input-field" type="text" id="name" data-field="name" data-scope="lead" data-required data-msg="Add your name so we know who to ask for." placeholder="e.g. Carlos Rivera" autocomplete="name">
       </div>
       <div class="input-group">
         <label class="input-label" for="phone">Phone Number</label>
-        <input class="input-field" type="tel" id="phone" placeholder="(305) 000-0000" autocomplete="tel">
+        <input class="input-field" type="tel" id="phone" inputmode="tel" placeholder="(305) 000-0000" autocomplete="tel">
+        <p class="field-hint" id="phoneHint"></p>
       </div>
-      <button class="btn-primary" onclick="submitStep1()">Continue →</button>
+      <div class="input-group">
+        <label class="input-label" for="email">Email <span class="optional" id="emailOptional">(optional)</span></label>
+        <input class="input-field" type="email" id="email" data-field="email" data-scope="lead" placeholder="you@company.com" autocomplete="email">
+      </div>
+      <button class="btn-primary" onclick="advance()">Continue →</button>
+      <button class="btn-back" onclick="goBack()">← Change inquiry type</button>
     </div>
 
-    <!-- STEP 2 -->
-    <div class="step" id="step-2">
+    <!-- ═══ WEBSITE ═══ -->
+
+    <div class="step" id="step-hasSite">
       <p class="step-eyebrow">Your online presence</p>
       <h1 class="step-title">Do you currently<br><em>have a website?</em></h1>
       <p class="step-sub">Be honest — there's no wrong answer here.</p>
       <div class="choice-group">
-        <button class="choice-btn" onclick="chooseWebsite('yes')">
+        <button class="choice-btn" data-site="yes" onclick="chooseWebsite('yes')">
           <span class="choice-icon">✅</span><span>Yes, I do</span>
         </button>
-        <button class="choice-btn" onclick="chooseWebsite('no')">
+        <button class="choice-btn" data-site="no" onclick="chooseWebsite('no')">
           <span class="choice-icon">🚫</span><span>No, not yet</span>
         </button>
       </div>
       <button class="btn-back" onclick="goBack()">← Go back</button>
     </div>
 
-    <!-- STEP 3A -->
-    <div class="step" id="step-3a">
+    <div class="step" id="step-statHas">
       <p class="step-eyebrow">Here's what the data says</p>
       <h1 class="step-title">Your website may be<br><em>costing you clients.</em></h1>
       <div class="stat-block">
@@ -206,12 +244,11 @@ footer{position:relative;z-index:5;text-align:center;padding:24px;font-size:12px
           Source <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg>
         </a>
       </div>
-      <button class="btn-primary" onclick="goToStep(4)">Let's fix that →</button>
+      <button class="btn-primary" onclick="advance()">Let's fix that →</button>
       <button class="btn-back" onclick="goBack()">← Go back</button>
     </div>
 
-    <!-- STEP 3B -->
-    <div class="step" id="step-3b">
+    <div class="step" id="step-statNone">
       <p class="step-eyebrow">Here's what the data says</p>
       <h1 class="step-title">You're invisible<br><em>to most customers.</em></h1>
       <div class="stat-block">
@@ -221,27 +258,25 @@ footer{position:relative;z-index:5;text-align:center;padding:24px;font-size:12px
           Source <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg>
         </a>
       </div>
-      <button class="btn-primary" onclick="goToStep(4)">Let's change that →</button>
+      <button class="btn-primary" onclick="advance()">Let's change that →</button>
       <button class="btn-back" onclick="goBack()">← Go back</button>
     </div>
 
-    <!-- STEP 4 -->
-    <div class="step" id="step-4">
+    <div class="step" id="step-bizType">
       <p class="step-eyebrow">Your business</p>
       <h1 class="step-title">What type of<br><em>business do you run?</em></h1>
       <p class="step-sub">Tell us the market you serve and what your customers come to you for.</p>
       <div class="input-group">
         <label class="input-label" for="businessType">Business Type</label>
-        <input class="input-field" type="text" id="businessType" placeholder="e.g. HVAC Contractor, Plumber, Salon...">
+        <input class="input-field" type="text" id="businessType" data-field="businessType" data-scope="lead" data-required data-msg="Tell us what kind of business it is." placeholder="e.g. HVAC Contractor, Plumber, Salon...">
       </div>
-      <button class="btn-primary" onclick="submitStep4()">Continue →</button>
+      <button class="btn-primary" onclick="advance()">Continue →</button>
       <button class="btn-back" onclick="goBack()">← Go back</button>
     </div>
 
-    <!-- STEP 5 — VISUAL BUILDER -->
-    <div class="step" id="step-5">
-      <p class="step-eyebrow" id="step5Eyebrow">Your vision</p>
-      <h1 class="step-title" id="step5Title">Show us what you <em>have in mind.</em></h1>
+    <div class="step" id="step-vision">
+      <p class="step-eyebrow" id="visionEyebrow">Your vision</p>
+      <h1 class="step-title" id="visionTitle">Show us what you <em>have in mind.</em></h1>
 
       <div class="demo-banner">
         <div class="demo-banner-icon">🎁</div>
@@ -265,10 +300,10 @@ footer{position:relative;z-index:5;text-align:center;padding:24px;font-size:12px
       <!-- TEXT MODE -->
       <div id="textMode">
         <div class="input-group">
-          <label class="input-label" id="step5Label">Describe Your Website</label>
+          <label class="input-label" id="visionLabel">Describe Your Website</label>
           <textarea class="input-field" id="websiteDesc" placeholder="e.g. I want a clean site where clients can book an HVAC inspection, pay a deposit, and get automatic texts..."></textarea>
         </div>
-        <button class="btn-primary" onclick="submitFinal()">Submit →</button>
+        <button class="btn-primary" onclick="submitWebsiteText()">Submit →</button>
       </div>
 
       <!-- VISUAL MODE -->
@@ -368,20 +403,291 @@ footer{position:relative;z-index:5;text-align:center;padding:24px;font-size:12px
         </div>
 
         <input type="file" id="imgUploadInput" accept="image/*" style="display:none" onchange="handleImageUpload(event)">
-        <button class="btn-primary" style="margin-top:14px" onclick="submitVisual()">Submit My Sketch →</button>
+        <button class="btn-primary" style="margin-top:14px" onclick="submitVisual(this)">Submit My Sketch →</button>
       </div>
 
       <button class="btn-back" onclick="goBack()">← Go back</button>
     </div>
 
-    <!-- STEP 6 -->
-    <div class="step" id="step-6">
+    <!--
+      Chip sets render their options from data-options (pipe-separated).
+      data-field  → key in the payload (details.<field>, or top level with data-scope="lead")
+      data-mode   → single (string) | multi (array)
+      data-label  → human label used in the plain-text summary
+    -->
+
+    <!-- ═══ CRM ═══ -->
+
+    <div class="step" id="step-crmTool">
+      <p class="step-eyebrow">Your current setup</p>
+      <h1 class="step-title">Where do your<br><em>leads live today?</em></h1>
+      <p class="step-sub">No judgment — most businesses we meet run on spreadsheets and memory.</p>
+      <div class="input-group">
+        <p class="input-label">Current tool</p>
+        <div class="chip-set" data-field="currentTool" data-label="Current tool" data-mode="single" data-required data-msg="Pick the closest option."
+             data-options="Nothing yet|Spreadsheets|Texts & notebooks|HubSpot|GoHighLevel|Salesforce|Zoho|Other"></div>
+      </div>
+      <div class="input-group">
+        <label class="input-label" for="currentToolNotes">Anything to add? <span class="optional">(optional)</span></label>
+        <input class="input-field" type="text" id="currentToolNotes" data-field="currentToolNotes" data-label="Setup notes" placeholder="e.g. Jobber for scheduling, leads tracked in Google Sheets">
+      </div>
+      <button class="btn-primary" onclick="advance()">Continue →</button>
+      <button class="btn-back" onclick="goBack()">← Go back</button>
+    </div>
+
+    <div class="step" id="step-crmTeam">
+      <p class="step-eyebrow">Your team</p>
+      <h1 class="step-title">Who's going to<br><em>use it?</em></h1>
+      <p class="step-sub">This helps us size the system before we ever get on a call.</p>
+      <div class="input-group">
+        <label class="input-label" for="crmBusinessType">Business Type</label>
+        <input class="input-field" type="text" id="crmBusinessType" data-field="businessType" data-scope="lead" data-required data-msg="Tell us what kind of business it is." placeholder="e.g. Roofing company, Med spa, Insurance agency...">
+      </div>
+      <div class="input-group">
+        <p class="input-label">Team size</p>
+        <div class="chip-set" data-field="teamSize" data-label="Team size" data-mode="single" data-required data-msg="Pick a team size."
+             data-options="Just me|2–5|6–20|21–50|50+"></div>
+      </div>
+      <div class="input-group">
+        <p class="input-label">New leads per month <span class="optional">(optional)</span></p>
+        <div class="chip-set" data-field="leadVolume" data-label="Leads per month" data-mode="single"
+             data-options="Under 50|50–200|200–1,000|1,000+|Not sure"></div>
+      </div>
+      <button class="btn-primary" onclick="advance()">Continue →</button>
+      <button class="btn-back" onclick="goBack()">← Go back</button>
+    </div>
+
+    <div class="step" id="step-crmPain">
+      <p class="step-eyebrow">What needs fixing</p>
+      <h1 class="step-title">What should work<br><em>better?</em></h1>
+      <p class="step-sub">Pick everything that applies.</p>
+      <div class="input-group">
+        <div class="chip-set" data-field="needs" data-label="Needs" data-mode="multi" data-required data-msg="Pick at least one."
+             data-options="Lead follow-up|Pipeline visibility|Automated texts & emails|Appointment booking|Reporting|Moving off our current tool|Connecting other apps|Team accountability"></div>
+      </div>
+      <div class="input-group">
+        <label class="input-label" for="crmNotes">Notes <span class="optional">(optional)</span></label>
+        <textarea class="input-field" id="crmNotes" data-field="notes" data-label="Notes" placeholder="e.g. Leads from Facebook sit for days before anyone calls them back..."></textarea>
+      </div>
+      <button class="btn-primary" onclick="advance()">Send to Edgeform →</button>
+      <button class="btn-back" onclick="goBack()">← Go back</button>
+    </div>
+
+    <!-- ═══ CONSULTING ═══ -->
+
+    <div class="step" id="step-consultBiz">
+      <p class="step-eyebrow">Your business</p>
+      <h1 class="step-title">Tell us where<br><em>you're at.</em></h1>
+      <p class="step-sub">Ranges are fine — this stays confidential.</p>
+      <div class="input-group">
+        <label class="input-label" for="consultBusinessType">Business Type</label>
+        <input class="input-field" type="text" id="consultBusinessType" data-field="businessType" data-scope="lead" data-required data-msg="Tell us what kind of business it is." placeholder="e.g. Commercial cleaning, SaaS, Law firm...">
+      </div>
+      <div class="input-group">
+        <p class="input-label">Annual revenue <span class="optional">(optional)</span></p>
+        <div class="chip-set" data-field="revenue" data-label="Annual revenue" data-mode="single"
+             data-options="Pre-revenue|Under $250K|$250K–$1M|$1M–$5M|$5M+|Prefer not to say"></div>
+      </div>
+      <button class="btn-primary" onclick="advance()">Continue →</button>
+      <button class="btn-back" onclick="goBack()">← Go back</button>
+    </div>
+
+    <div class="step" id="step-consultGoal">
+      <p class="step-eyebrow">Your goals</p>
+      <h1 class="step-title">What would move<br><em>the needle?</em></h1>
+      <p class="step-sub">Pick everything that applies.</p>
+      <div class="input-group">
+        <div class="chip-set" data-field="goals" data-label="Goals" data-mode="multi" data-required data-msg="Pick at least one."
+             data-options="More qualified leads|Higher close rate|Pricing & offers|Marketing strategy|Sales process & scripts|Sales team training|Launching something new|Brand positioning"></div>
+      </div>
+      <button class="btn-primary" onclick="advance()">Continue →</button>
+      <button class="btn-back" onclick="goBack()">← Go back</button>
+    </div>
+
+    <div class="step" id="step-consultStuck">
+      <p class="step-eyebrow">The real problem</p>
+      <h1 class="step-title">Where are things<br><em>getting stuck?</em></h1>
+      <p class="step-sub">A few sentences is plenty. The more honest, the more useful the first call.</p>
+      <div class="input-group">
+        <label class="input-label" for="challenge">The Challenge</label>
+        <textarea class="input-field" id="challenge" data-field="challenge" data-label="Challenge" data-required data-msg="Give us a sentence or two." placeholder="e.g. We get plenty of calls but only close 1 in 10, and nobody follows up after the first quote..."></textarea>
+      </div>
+      <div class="input-group">
+        <p class="input-label">Timeline <span class="optional">(optional)</span></p>
+        <div class="chip-set" data-field="timeline" data-label="Timeline" data-mode="single"
+             data-options="ASAP|This quarter|Just exploring"></div>
+      </div>
+      <button class="btn-primary" onclick="advance()">Send to Edgeform →</button>
+      <button class="btn-back" onclick="goBack()">← Go back</button>
+    </div>
+
+    <!-- ═══ CREATOR (influencer applying) ═══ -->
+
+    <div class="step" id="step-creatorSocials">
+      <p class="step-eyebrow">Your channels</p>
+      <h1 class="step-title">Where does your<br><em>audience follow you?</em></h1>
+      <p class="step-sub">Add at least one. Handles or links both work.</p>
+      <div class="handle-row">
+        <label class="input-label" for="igHandle">Instagram</label>
+        <input class="input-field" type="text" id="igHandle" data-field="instagram" data-group="socials" data-label="Instagram" data-kind="handle" placeholder="@yourhandle" autocapitalize="off" autocorrect="off" spellcheck="false">
+      </div>
+      <div class="handle-row">
+        <label class="input-label" for="ttHandle">TikTok</label>
+        <input class="input-field" type="text" id="ttHandle" data-field="tiktok" data-group="socials" data-label="TikTok" data-kind="handle" placeholder="@yourhandle" autocapitalize="off" autocorrect="off" spellcheck="false">
+      </div>
+      <div class="handle-row">
+        <label class="input-label" for="ytHandle">YouTube</label>
+        <input class="input-field" type="text" id="ytHandle" data-field="youtube" data-group="socials" data-label="YouTube" data-kind="handle" placeholder="@yourchannel" autocapitalize="off" autocorrect="off" spellcheck="false">
+      </div>
+      <div class="handle-row">
+        <label class="input-label" for="otherHandle">Other</label>
+        <input class="input-field" type="text" id="otherHandle" data-field="other" data-group="socials" data-label="Other" placeholder="Facebook, X, Twitch, a blog..." autocapitalize="off" autocorrect="off" spellcheck="false">
+      </div>
+      <button class="btn-primary" onclick="advance()">Continue →</button>
+      <button class="btn-back" onclick="goBack()">← Go back</button>
+    </div>
+
+    <div class="step" id="step-creatorAudience">
+      <p class="step-eyebrow">Your audience</p>
+      <h1 class="step-title">Who's paying<br><em>attention?</em></h1>
+      <p class="step-sub">Brands care about fit more than follower count.</p>
+      <div class="input-group">
+        <p class="input-label">Total audience (all platforms)</p>
+        <div class="chip-set" data-field="audienceSize" data-label="Audience size" data-mode="single" data-required data-msg="Pick your audience size."
+             data-options="Under 5K|5K–25K|25K–100K|100K–500K|500K+"></div>
+      </div>
+      <div class="input-group">
+        <p class="input-label">Your niche</p>
+        <div class="chip-set" data-field="niches" data-label="Niches" data-mode="multi" data-required data-msg="Pick at least one niche."
+             data-options="@niches"></div>
+      </div>
+      <div class="input-group">
+        <label class="input-label" for="creatorLocation">City / Market</label>
+        <input class="input-field" type="text" id="creatorLocation" data-field="location" data-label="Location" data-required data-msg="Where are you based? Local brands pair by market." placeholder="e.g. Miami, FL" autocomplete="address-level2">
+      </div>
+      <button class="btn-primary" onclick="advance()">Continue →</button>
+      <button class="btn-back" onclick="goBack()">← Go back</button>
+    </div>
+
+    <div class="step" id="step-creatorWork">
+      <p class="step-eyebrow">Your work</p>
+      <h1 class="step-title">What do you<br><em>like to make?</em></h1>
+      <p class="step-sub">Pick everything you're open to.</p>
+      <div class="input-group">
+        <div class="chip-set" data-field="contentTypes" data-label="Content types" data-mode="multi" data-required data-msg="Pick at least one."
+             data-options="Sponsored posts|Short-form video|Stories|UGC (no posting)|Long-form / YouTube|Reviews|Live & in-person events"></div>
+      </div>
+      <div class="input-group">
+        <p class="input-label">Typical rate per post <span class="optional">(optional)</span></p>
+        <div class="chip-set" data-field="rate" data-label="Rate per post" data-mode="single"
+             data-options="Under $100|$100–$500|$500–$1K|$1K+|Open to gifting"></div>
+      </div>
+      <div class="input-group">
+        <label class="input-label" for="mediaKit">Media kit or portfolio link <span class="optional">(optional)</span></label>
+        <input class="input-field" type="url" id="mediaKit" data-field="mediaKit" data-label="Media kit" data-kind="url" placeholder="e.g. linktr.ee/yourname" autocapitalize="off" spellcheck="false">
+      </div>
+      <label class="check">
+        <input type="checkbox" id="creatorConsent" data-field="consent" data-label="18+ and OK to share profile with brands" data-required data-msg="Please confirm before submitting.">
+        <span>I'm 18 or older, and I'm OK with Edgeform sharing my public profile with brands we think are a fit.</span>
+      </label>
+      <button class="btn-primary" onclick="advance()">Apply →</button>
+      <button class="btn-back" onclick="goBack()">← Go back</button>
+    </div>
+
+    <!-- ═══ SPONSOR (business seeking an influencer) ═══ -->
+
+    <div class="step" id="step-sponsorGoal">
+      <p class="step-eyebrow">Your campaign</p>
+      <h1 class="step-title">What should a creator<br><em>do for you?</em></h1>
+      <p class="step-sub">We'll match against what you're trying to achieve.</p>
+      <div class="input-group">
+        <label class="input-label" for="sponsorBusinessType">Business Type</label>
+        <input class="input-field" type="text" id="sponsorBusinessType" data-field="businessType" data-scope="lead" data-required data-msg="Tell us what kind of business it is." placeholder="e.g. Restaurant, Boutique gym, Dental office...">
+      </div>
+      <div class="input-group">
+        <p class="input-label">Campaign goals</p>
+        <div class="chip-set" data-field="goals" data-label="Campaign goals" data-mode="multi" data-required data-msg="Pick at least one goal."
+             data-options="Brand awareness|Product launch|Foot traffic|Online sales|Sign-ups / app installs|Event promotion|Content for our own ads"></div>
+      </div>
+      <button class="btn-primary" onclick="advance()">Continue →</button>
+      <button class="btn-back" onclick="goBack()">← Go back</button>
+    </div>
+
+    <div class="step" id="step-sponsorAudience">
+      <p class="step-eyebrow">Your audience</p>
+      <h1 class="step-title">Who do you need<br><em>to reach?</em></h1>
+      <p class="step-sub">Be specific — "everyone" makes for a weak match.</p>
+      <div class="input-group">
+        <p class="input-label">Creator niches that fit your brand</p>
+        <div class="chip-set" data-field="niches" data-label="Niches" data-mode="multi" data-required data-msg="Pick at least one niche so we can match creators."
+             data-options="@niches"></div>
+      </div>
+      <div class="input-group">
+        <label class="input-label" for="targetAudience">Target Audience</label>
+        <input class="input-field" type="text" id="targetAudience" data-field="targetAudience" data-label="Target audience" data-required data-msg="Describe who you're trying to reach." placeholder="e.g. Parents 25–40 who live near our locations">
+      </div>
+      <div class="input-group">
+        <label class="input-label" for="sponsorMarket">Market / Location <span class="optional">(optional)</span></label>
+        <input class="input-field" type="text" id="sponsorMarket" data-field="market" data-label="Market" placeholder="e.g. Miami-Dade & Broward, or nationwide">
+      </div>
+      <div class="input-group">
+        <p class="input-label">Preferred platforms <span class="optional">(optional)</span></p>
+        <div class="chip-set" data-field="platforms" data-label="Platforms" data-mode="multi"
+             data-options="Instagram|TikTok|YouTube|Facebook|No preference"></div>
+      </div>
+      <button class="btn-primary" onclick="advance()">Continue →</button>
+      <button class="btn-back" onclick="goBack()">← Go back</button>
+    </div>
+
+    <div class="step" id="step-sponsorBudget">
+      <p class="step-eyebrow">Budget &amp; timing</p>
+      <h1 class="step-title">What are we<br><em>working with?</em></h1>
+      <p class="step-sub">A rough range lets us shortlist the right tier of creators.</p>
+      <div class="input-group">
+        <p class="input-label">Campaign budget</p>
+        <div class="chip-set" data-field="budget" data-label="Budget" data-mode="single" data-required data-msg="Pick a budget range."
+             data-options="Under $1K|$1K–$5K|$5K–$15K|$15K+|Not sure yet"></div>
+      </div>
+      <div class="input-group">
+        <p class="input-label">Timeline <span class="optional">(optional)</span></p>
+        <div class="chip-set" data-field="timeline" data-label="Timeline" data-mode="single"
+             data-options="ASAP|Within 30 days|1–3 months|Just exploring"></div>
+      </div>
+      <div class="input-group">
+        <label class="input-label" for="sponsorNotes">Notes <span class="optional">(optional)</span></label>
+        <textarea class="input-field" id="sponsorNotes" data-field="notes" data-label="Notes" placeholder="e.g. Grand opening on the 15th, want 3–4 local food creators..."></textarea>
+      </div>
+      <button class="btn-primary" onclick="advance()">Send to Edgeform →</button>
+      <button class="btn-back" onclick="goBack()">← Go back</button>
+    </div>
+
+    <!-- ═══ OTHER ═══ -->
+
+    <div class="step" id="step-otherMsg">
+      <p class="step-eyebrow">Your message</p>
+      <h1 class="step-title">How can we<br><em>help?</em></h1>
+      <p class="step-sub">Tell us what you have in mind and we'll get it to the right person.</p>
+      <div class="input-group">
+        <label class="input-label" for="otherCompany">Company <span class="optional">(optional)</span></label>
+        <input class="input-field" type="text" id="otherCompany" data-field="company" data-label="Company" placeholder="e.g. Rivera Holdings" autocomplete="organization">
+      </div>
+      <div class="input-group">
+        <label class="input-label" for="otherMessage">Message</label>
+        <textarea class="input-field" id="otherMessage" data-field="message" data-label="Message" data-required data-msg="Add a short message." placeholder="What's on your mind?"></textarea>
+      </div>
+      <button class="btn-primary" onclick="advance()">Send to Edgeform →</button>
+      <button class="btn-back" onclick="goBack()">← Go back</button>
+    </div>
+
+    <!-- ═══ DONE ═══ -->
+
+    <div class="step" id="step-done">
       <div class="success-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
-      <p class="step-eyebrow" style="text-align:center">You're all set</p>
-      <h1 class="step-title" style="text-align:center;margin-bottom:16px">We'll be in touch<br><em>very soon.</em></h1>
-      <p class="step-sub" style="text-align:center;margin-bottom:32px">We've received everything we need. Expect a call or text within 24 hours — your <strong>free demo</strong> will be ready shortly after.</p>
+      <p class="step-eyebrow" id="doneEyebrow" style="text-align:center">You're all set</p>
+      <h1 class="step-title" id="doneTitle" style="text-align:center;margin-bottom:16px">We'll be in touch<br><em>very soon.</em></h1>
+      <p class="step-sub" id="doneSub" style="text-align:center;margin:0 auto 32px">We've received everything we need.</p>
       <div class="divider"></div>
       <a href="/" class="btn-primary" style="display:block;text-align:center;text-decoration:none;">← Back to home</a>
     </div>
@@ -391,721 +697,8 @@ footer{position:relative;z-index:5;text-align:center;padding:24px;font-size:12px
 
 <footer>© 2026 Edgeform Marketing Group. All information is handled confidentially.</footer>
 
-<script>
-// ── STATE ────────────────────────────────────────────────────
-const S = { step:1, history:[1], websiteAnswer:null, data:{}, mode:'text' };
-const TOTAL = 5;
+<script src="sketch.js"></script>
+<script src="intake.js"></script>
 
-
-// ── INIT ─────────────────────────────────────────────────────
-buildDots(); updateNav();
-function buildDots(){
-  const c=document.getElementById('progressDots'); c.innerHTML='';
-  for(let i=1;i<=TOTAL;i++){const d=document.createElement('div');d.className='dot';d.id=`dot-${i}`;c.appendChild(d);}
-  refreshDots();
-}
-function refreshDots(){
-  const v=visNum();
-  for(let i=1;i<=TOTAL;i++){const d=document.getElementById(`dot-${i}`);d.className='dot';if(i<v)d.classList.add('done');else if(i===v)d.classList.add('active');}
-}
-function visNum(){const s=S.step;if(s===1)return 1;if(s===2)return 2;if(s==='3a'||s==='3b')return 3;if(s===4)return 4;return 5;}
-function updateNav(){document.getElementById('stepCounter').textContent=Math.min(visNum(),TOTAL);document.getElementById('totalSteps').textContent=TOTAL;}
-
-// ── NAV ───────────────────────────────────────────────────────
-function showStep(id){
-  document.querySelectorAll('.step.active').forEach(e=>e.classList.remove('active'));
-  const t=document.getElementById(`step-${id}`); if(!t)return;
-  t.classList.add('active'); S.step=id; refreshDots(); updateNav();
-  const card=document.getElementById('formCard');
-  card.classList.toggle('wide', id===5);
-  if(id===5){updateStep5Copy();}
-}
-function goToStep(id){S.history.push(id);showStep(id);}
-function goBack(){if(S.history.length>1){S.history.pop();showStep(S.history[S.history.length-1]);}}
-function updateStep5Copy(){
-  if(S.websiteAnswer==='yes'){
-    document.getElementById('step5Eyebrow').textContent='Your current site';
-    document.getElementById('step5Title').innerHTML='Show us what you <em>currently have.</em>';
-    document.getElementById('step5Label').textContent='Describe Your Current Website';
-    document.getElementById('websiteDesc').placeholder='e.g. I have a basic Wix site — looks outdated, doesn\'t rank on Google, and clients can\'t book online...';
-  } else {
-    document.getElementById('step5Eyebrow').textContent='Your vision';
-    document.getElementById('step5Title').innerHTML='Show us what you <em>have in mind.</em>';
-    document.getElementById('step5Label').textContent='Describe Your Ideal Website';
-    document.getElementById('websiteDesc').placeholder='e.g. Clean, dark site where clients can book an appointment, pay a deposit, and get automatic texts...';
-  }
-}
-
-// ── STEP ACTIONS ──────────────────────────────────────────────
-let autoSaved=false;
-function tryAutoSave(){
-  const n=document.getElementById('name').value.trim(), p=document.getElementById('phone').value.trim();
-  if(n&&p&&!autoSaved){autoSaved=true;post({name:n,phone:p,autoSave:true});showBadge();}
-}
-function showBadge(){const b=document.getElementById('autoSaveBadge');b.classList.add('visible');setTimeout(()=>b.classList.remove('visible'),3000);}
-document.getElementById('name').addEventListener('blur',tryAutoSave);
-document.getElementById('phone').addEventListener('blur',tryAutoSave);
-document.getElementById('phone').addEventListener('input',function(){
-  let v=this.value.replace(/\D/g,'').slice(0,10);
-  if(v.length>=7)v=`(${v.slice(0,3)}) ${v.slice(3,6)}-${v.slice(6)}`;
-  else if(v.length>=4)v=`(${v.slice(0,3)}) ${v.slice(3)}`;
-  else if(v.length>0)v=`(${v}`;
-  this.value=v;
-});
-function submitStep1(){
-  const n=document.getElementById('name').value.trim(), p=document.getElementById('phone').value.trim();
-  if(!n){err('name');return;} if(!p){err('phone');return;}
-  S.data.name=n; S.data.phone=p;
-  if(!autoSaved){post({name:n,phone:p,autoSave:true});autoSaved=true;}
-  goToStep(2);
-}
-function chooseWebsite(a){S.websiteAnswer=a;S.data.hasWebsite=a;goToStep(a==='yes'?'3a':'3b');}
-function submitStep4(){const v=document.getElementById('businessType').value.trim();if(!v){err('businessType');return;}S.data.businessType=v;goToStep(5);}
-function err(id){const e=document.getElementById(id);e.classList.add('error');e.focus();e.addEventListener('input',()=>e.classList.remove('error'),{once:true});}
-
-// ── MODE TOGGLE ───────────────────────────────────────────────
-function setMode(m){
-  S.mode=m;
-  document.getElementById('modeText').classList.toggle('active',m==='text');
-  document.getElementById('modeVisual').classList.toggle('active',m==='visual');
-  document.getElementById('textMode').style.display=m==='text'?'block':'none';
-  document.getElementById('visualMode').style.display=m==='visual'?'block':'none';
-  if(m==='visual'){requestAnimationFrame(()=>requestAnimationFrame(()=>{initCanvas();}));}
-}
-
-// ── SUBMIT ────────────────────────────────────────────────────
-function submitFinal(){
-  const d=document.getElementById('websiteDesc').value.trim(); if(!d){err('websiteDesc');return;}
-  S.data.websiteDescription=d; S.data.inputMode='text';
-  post({...S.data,autoSave:false,complete:true}); goToStep(6);
-}
-function submitVisual(){
-  if(!canvas){submitFinal();return;}
-  drawAll();
-  const b64=canvas.toDataURL('image/png').split(',')[1];
-  S.data.inputMode='visual';
-  S.data.canvasImage=b64;
-  S.data.websiteDescription=document.getElementById('websiteDesc').value.trim()||'[Visual sketch provided]';
-  post({...S.data,autoSave:false,complete:true}); goToStep(6);
-}
-function post(payload){
-  const CRM_API='https://edgeform-crm-api.edgeformmedia.workers.dev/api/submissions';
-  const LEGACY_MEDIA_EP='https://script.google.com/macros/s/AKfycbwNQfLtAOGamQ4hE2Prpxj9ELdOi2l1Pot111HiCxd8zdxSsZMU808Xk21uh0soimJ1gw/exec';
-  payload.source='edgeform-form'; payload.timestamp=new Date().toISOString();
-  const crmPayload={...payload,hasSketch:Boolean(payload.canvasImage)}; delete crmPayload.canvasImage;
-  fetch(CRM_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(crmPayload)}).catch(()=>{});
-  // Keep the media bridge during migration so visual sketches still reach Drive.
-  fetch(LEGACY_MEDIA_EP,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(()=>{});
-}
-
-// ═══════════════════════════════════════════════════
-//  CANVAS BUILDER — v3: 16:9, resize, text, sel panel
-// ═══════════════════════════════════════════════════
-const SECTIONS = [
-  { label:'Nav Bar',  icon:'🔝', h:50,  color:'#1e3a5f', desc:'Navigation' },
-  { label:'Hero',     icon:'⭐', h:110, color:'#1a1a2e', desc:'Main banner' },
-  { label:'Services', icon:'🔧', h:88,  color:'#0f2027', desc:'What you offer' },
-  { label:'About',    icon:'👤', h:80,  color:'#1a1a2e', desc:'About you' },
-  { label:'Reviews',  icon:'💬', h:80,  color:'#0f2027', desc:'Testimonials' },
-  { label:'Booking',  icon:'📅', h:96,  color:'#1e3a5f', desc:'Book online' },
-  { label:'Gallery',  icon:'🖼', h:88,  color:'#1a1a2e', desc:'Photos' },
-  { label:'Contact',  icon:'📞', h:68,  color:'#0f2027', desc:'Footer / contact' },
-];
-
-let canvas, ctx;
-let tool       = 'draw';
-let drawColor  = '#111111';
-let brushSize  = 5;
-let drawOpacity = 1.0;
-let isDrawing  = false;
-let lastX = 0, lastY = 0;
-let rectStart  = null;
-let elements   = [];
-let selectedEl = null, dragOX = 0, dragOY = 0;
-let resizeHandle = null; // {el, corner}
-let undoStack  = [];
-let textInput  = null;
-
-// ── Build section chips ─────────────────────────────
-function buildSectionsPanel() {
-  const grid = document.getElementById('sectionsGrid');
-  if (!grid || grid.children.length > 0) return;
-  SECTIONS.forEach(s => {
-    const chip = document.createElement('div');
-    chip.className = 'section-chip';
-    chip.innerHTML = `<span class="section-chip-icon">${s.icon}</span><span class="section-chip-label">${s.label}</span>`;
-    chip.addEventListener('click', () => placeSection(s));
-    grid.appendChild(chip);
-  });
-}
-
-// ── Init ────────────────────────────────────────────
-function initCanvas() {
-  if (canvas) { resizeCanvas(); return; }
-  canvas = document.getElementById('builderCanvas');
-  ctx    = canvas.getContext('2d');
-  buildSectionsPanel();
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    resizeCanvas();
-    saveUndo();
-  }));
-  canvas.addEventListener('mousedown',  onDown);
-  canvas.addEventListener('mousemove',  onMove);
-  canvas.addEventListener('mouseup',    onUp);
-  canvas.addEventListener('mouseleave', onUp);
-  canvas.addEventListener('dblclick',   onDblClick);
-  canvas.addEventListener('touchstart', e => { e.preventDefault(); onDown(t2m(e)); }, { passive:false });
-  canvas.addEventListener('touchmove',  e => { e.preventDefault(); onMove(t2m(e)); }, { passive:false });
-  canvas.addEventListener('touchend',   e => { e.preventDefault(); onUp(t2m(e));   }, { passive:false });
-}
-
-function t2m(e) {
-  const t = e.touches[0] || e.changedTouches[0];
-  return { clientX:t.clientX, clientY:t.clientY, button:0 };
-}
-
-// ── Resize canvas to fill container at 16:9 ─────────
-function resizeCanvas() {
-  if (!canvas) return;
-  const cc = document.getElementById('canvasContainer');
-  const W  = cc.clientWidth;
-  if (!W) return;
-  const H   = Math.round(W * 9 / 16);
-  const dpr = window.devicePixelRatio || 1;
-  cc.style.height = H + 'px';
-  canvas.width    = W * dpr;
-  canvas.height   = H * dpr;
-  canvas.style.width  = W + 'px';
-  canvas.style.height = H + 'px';
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
-  ctx.scale(dpr, dpr);
-  drawAll();
-}
-
-window.addEventListener('resize', () => {
-  if (canvas && S.step === 5 && S.mode === 'visual') resizeCanvas();
-});
-
-function getW() { return canvas.width  / (window.devicePixelRatio || 1); }
-function getH() { return canvas.height / (window.devicePixelRatio || 1); }
-
-function gp(e) {
-  const r   = canvas.getBoundingClientRect();
-  const dpr = window.devicePixelRatio || 1;
-  return {
-    x: (e.clientX - r.left) * (canvas.width  / r.width)  / dpr,
-    y: (e.clientY - r.top)  * (canvas.height / r.height) / dpr
-  };
-}
-
-// ── Resize handle hit test ──────────────────────────
-const HANDLE_R = 6;
-function getHandles(el) {
-  const x = el.x, y = el.y, w = el.w || 160, h = el.h || 50;
-  return [
-    { id:'se', x:x+w, y:y+h },
-    { id:'sw', x:x,   y:y+h },
-    { id:'ne', x:x+w, y:y   },
-    { id:'nw', x:x,   y:y   },
-  ];
-}
-function hitHandle(el, px, py) {
-  if (!el || (el.type !== 'rect' && el.type !== 'section')) return null;
-  for (const h of getHandles(el)) {
-    if (Math.abs(px - h.x) <= HANDLE_R + 3 && Math.abs(py - h.y) <= HANDLE_R + 3) return h.id;
-  }
-  return null;
-}
-
-// ── Events ──────────────────────────────────────────
-function onDown(e) {
-  if (e.button !== 0 && e.button !== undefined) return;
-  const p = gp(e);
-  isDrawing = true;
-  hideHint();
-
-  if (tool === 'draw' || tool === 'erase') {
-    saveUndo();
-    ctx.beginPath();
-    ctx.moveTo(p.x, p.y);
-    lastX = p.x; lastY = p.y;
-
-  } else if (tool === 'rect') {
-    saveUndo();
-    rectStart = { x:p.x, y:p.y };
-
-  } else if (tool === 'text') {
-    saveUndo();
-    placeTextInput(p.x, p.y);
-    isDrawing = false;
-
-  } else if (tool === 'select') {
-    // Check resize handle on currently selected element first
-    if (selectedEl) {
-      const h = hitHandle(selectedEl, p.x, p.y);
-      if (h) { resizeHandle = { el:selectedEl, corner:h, startX:p.x, startY:p.y, origX:selectedEl.x, origY:selectedEl.y, origW:selectedEl.w||160, origH:selectedEl.h||50 }; return; }
-    }
-    // Hit test all elements
-    const prev = selectedEl;
-    selectedEl = null;
-    resizeHandle = null;
-    for (let i = elements.length - 1; i >= 0; i--) {
-      if (hitTest(elements[i], p.x, p.y)) {
-        selectedEl = elements[i];
-        dragOX = p.x - elements[i].x;
-        dragOY = p.y - elements[i].y;
-        break;
-      }
-    }
-    updateSelPanel();
-    drawAll();
-  }
-}
-
-function onMove(e) {
-  if (!isDrawing) return;
-  const p = gp(e);
-
-  if (tool === 'draw') {
-    ctx.globalAlpha = drawOpacity;
-    ctx.lineWidth   = brushSize;
-    ctx.lineCap     = 'round';
-    ctx.lineJoin    = 'round';
-    ctx.strokeStyle = drawColor;
-    ctx.lineTo(p.x, p.y);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(p.x, p.y);
-    ctx.globalAlpha = 1;
-    lastX = p.x; lastY = p.y;
-
-  } else if (tool === 'erase') {
-    ctx.lineWidth   = brushSize * 3;
-    ctx.lineCap     = 'round';
-    ctx.strokeStyle = '#f8f8f8';
-    ctx.lineTo(p.x, p.y);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(p.x, p.y);
-
-  } else if (tool === 'rect' && rectStart) {
-    drawAll();
-    const w = p.x - rectStart.x, h = p.y - rectStart.y;
-    ctx.save();
-    ctx.globalAlpha = drawOpacity;
-    ctx.fillStyle   = drawColor;
-    ctx.strokeStyle = drawColor;
-    ctx.lineWidth   = 2;
-    ctx.beginPath();
-    ctx.roundRect(rectStart.x, rectStart.y, w, h, 4);
-    ctx.fill();
-    ctx.globalAlpha = 1;
-    ctx.stroke();
-    ctx.restore();
-
-  } else if (tool === 'select') {
-    if (resizeHandle) {
-      const dx = p.x - resizeHandle.startX;
-      const dy = p.y - resizeHandle.startY;
-      const el = resizeHandle.el;
-      const c  = resizeHandle.corner;
-      if (c === 'se') { el.w = Math.max(40, resizeHandle.origW + dx); el.h = Math.max(20, resizeHandle.origH + dy); }
-      else if (c === 'sw') { el.x = resizeHandle.origX + dx; el.w = Math.max(40, resizeHandle.origW - dx); el.h = Math.max(20, resizeHandle.origH + dy); }
-      else if (c === 'ne') { el.w = Math.max(40, resizeHandle.origW + dx); el.y = resizeHandle.origY + dy; el.h = Math.max(20, resizeHandle.origH - dy); }
-      else if (c === 'nw') { el.x = resizeHandle.origX + dx; el.y = resizeHandle.origY + dy; el.w = Math.max(40, resizeHandle.origW - dx); el.h = Math.max(20, resizeHandle.origH - dy); }
-      drawAll();
-    } else if (selectedEl) {
-      selectedEl.x = p.x - dragOX;
-      selectedEl.y = p.y - dragOY;
-      drawAll();
-    }
-  }
-}
-
-function onUp(e) {
-  if (!isDrawing && !resizeHandle) return;
-  const wasResize = !!resizeHandle;
-  isDrawing    = false;
-  resizeHandle = null;
-
-  if (tool === 'rect' && rectStart && e) {
-    const p = gp(e);
-    const w = p.x - rectStart.x, h = p.y - rectStart.y;
-    if (Math.abs(w) > 6 && Math.abs(h) > 6) {
-      elements.push({ type:'rect', x:rectStart.x, y:rectStart.y, w, h, color:drawColor, opacity:drawOpacity });
-    }
-    rectStart = null;
-    drawAll();
-  }
-  if (wasResize) { saveUndo(); updateSelPanel(); }
-}
-
-// ── Double-click to edit section/text label inline ──
-function onDblClick(e) {
-  const p = gp(e);
-  for (let i = elements.length - 1; i >= 0; i--) {
-    const el = elements[i];
-    if ((el.type === 'section' || el.type === 'text') && hitTest(el, p.x, p.y)) {
-      selectedEl = el;
-      setTool('select');
-      updateSelPanel();
-      // Focus the label field
-      setTimeout(() => {
-        const lf = document.getElementById('selLabel');
-        if (lf) { lf.focus(); lf.select(); }
-      }, 50);
-      return;
-    }
-  }
-}
-
-// ── Draw all ─────────────────────────────────────────
-function drawAll() {
-  if (!ctx || !canvas.width || !canvas.height) return;
-  const W = getW(), H = getH();
-
-  // White background
-  ctx.fillStyle = '#f8f8f8';
-  ctx.fillRect(0, 0, W, H);
-
-  // Subtle dot grid
-  ctx.fillStyle = 'rgba(0,0,0,0.07)';
-  for (let x = 16; x < W; x += 24) {
-    for (let y = 16; y < H; y += 24) {
-      ctx.beginPath(); ctx.arc(x, y, 1, 0, Math.PI*2); ctx.fill();
-    }
-  }
-
-  elements.forEach(drawEl);
-
-  // Selection outline + handles
-  if (selectedEl && tool === 'select') {
-    const el = selectedEl;
-    const x = el.x, y = el.y;
-    const w = el.w || 160, h = el.h || 50;
-    ctx.save();
-    ctx.strokeStyle = '#0071e3';
-    ctx.lineWidth   = 2;
-    ctx.setLineDash([5, 3]);
-    ctx.strokeRect(x - 2, y - 2, w + 4, h + 4);
-    ctx.setLineDash([]);
-    // Resize handles
-    for (const hd of getHandles(el)) {
-      ctx.fillStyle   = '#fff';
-      ctx.strokeStyle = '#0071e3';
-      ctx.lineWidth   = 1.5;
-      ctx.fillRect(hd.x - HANDLE_R, hd.y - HANDLE_R, HANDLE_R*2, HANDLE_R*2);
-      ctx.strokeRect(hd.x - HANDLE_R, hd.y - HANDLE_R, HANDLE_R*2, HANDLE_R*2);
-    }
-    ctx.restore();
-  }
-}
-
-function drawEl(el) {
-  ctx.save();
-  const op = (el.opacity !== undefined) ? el.opacity : 1;
-
-  if (el.type === 'section') {
-    const W  = getW();
-    const w  = el.w || W - 24;
-    const h  = el.h || 52;
-    ctx.globalAlpha = op;
-    ctx.fillStyle   = el.color || '#1e3a5f';
-    ctx.beginPath();
-    ctx.roundRect(el.x, el.y, w, h, 5);
-    ctx.fill();
-    ctx.globalAlpha = 1;
-    // Icon + editable label
-    ctx.font      = 'bold 13px DM Sans, Arial, sans-serif';
-    ctx.fillStyle = 'rgba(255,255,255,0.92)';
-    ctx.fillText(`${el.icon}  ${el.label}`, el.x + 14, el.y + h/2 + 5);
-    // Right label (desc)
-    ctx.font      = '11px DM Sans, Arial, sans-serif';
-    ctx.fillStyle = 'rgba(255,255,255,0.38)';
-    ctx.textAlign = 'right';
-    ctx.fillText(el.desc || '', el.x + w - 12, el.y + h/2 + 4);
-    ctx.textAlign = 'left';
-
-  } else if (el.type === 'rect') {
-    ctx.globalAlpha = op;
-    ctx.fillStyle   = el.color;
-    ctx.strokeStyle = el.color;
-    ctx.lineWidth   = 2;
-    ctx.beginPath();
-    ctx.roundRect(el.x, el.y, el.w, el.h, 4);
-    ctx.fill();
-    ctx.globalAlpha = Math.min(1, op + 0.15);
-    ctx.stroke();
-    ctx.globalAlpha = 1;
-
-  } else if (el.type === 'text') {
-    ctx.globalAlpha = op;
-    ctx.font        = `bold ${el.size || 15}px DM Sans, Arial, sans-serif`;
-    ctx.fillStyle   = el.color || '#111';
-    ctx.fillText(el.label || el.text || '', el.x, el.y);
-    ctx.globalAlpha = 1;
-
-  } else if (el.type === 'image' && el.img) {
-    ctx.globalAlpha = op;
-    ctx.drawImage(el.img, el.x, el.y, el.w, el.h);
-    ctx.globalAlpha = 1;
-    ctx.strokeStyle = '#ccc';
-    ctx.lineWidth   = 1;
-    ctx.strokeRect(el.x, el.y, el.w, el.h);
-  }
-  ctx.restore();
-}
-
-// ── Place section chip ───────────────────────────────
-function placeSection(s) {
-  const W = getW();
-  const lastY = elements
-    .filter(e => e.type === 'section')
-    .reduce((m, e) => Math.max(m, e.y + (e.h || 52) + 4), 10);
-  elements.push({
-    type:'section', label:s.label, icon:s.icon,
-    desc:s.desc, color:s.color, opacity:1,
-    x:10, y:lastY, w:W - 20, h:s.h
-  });
-  saveUndo(); drawAll(); hideHint();
-}
-
-// ── Tools ────────────────────────────────────────────
-function setTool(t) {
-  tool = t;
-  document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
-  const tb = document.getElementById(`tool-${t}`);
-  if (tb) tb.classList.add('active');
-  if (!canvas) return;
-  canvas.style.cursor = t === 'text' ? 'text' : t === 'select' ? 'default' : t === 'erase' ? 'cell' : 'crosshair';
-  if (t !== 'select') { selectedEl = null; resizeHandle = null; updateSelPanel(); drawAll(); }
-}
-
-function pickColor(el) {
-  document.querySelectorAll('.color-swatch').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  drawColor = el.dataset.color;
-  const cc = document.getElementById('customColor');
-  if (cc) cc.value = drawColor;
-}
-
-// ── Selection panel ──────────────────────────────────
-function updateSelPanel() {
-  const panel = document.getElementById('selPanel');
-  if (!panel) return;
-  if (!selectedEl) {
-    panel.classList.remove('visible');
-    return;
-  }
-  panel.classList.add('visible');
-  const el = selectedEl;
-  document.getElementById('selName').textContent    = el.label || el.text || el.type;
-  document.getElementById('selColor').value         = el.color || '#111111';
-  const opPct = Math.round((el.opacity !== undefined ? el.opacity : 1) * 100);
-  document.getElementById('selOpacity').value       = opPct;
-  document.getElementById('selOpLabel').textContent = opPct + '%';
-  document.getElementById('selLabel').value         = el.label || el.text || '';
-}
-
-function changeSelectedColor(v) {
-  if (!selectedEl) return;
-  selectedEl.color = v;
-  saveUndo(); drawAll();
-}
-
-function changeSelectedOpacity(v) {
-  if (!selectedEl) return;
-  selectedEl.opacity = v;
-  drawAll();
-}
-
-function changeSelectedLabel(v) {
-  if (!selectedEl) return;
-  if (selectedEl.type === 'text') selectedEl.text  = v;
-  else selectedEl.label = v;
-  drawAll();
-}
-
-// ── Text tool ────────────────────────────────────────
-function placeTextInput(x, y) {
-  if (textInput) { textInput.remove(); textInput = null; }
-  const cc = document.getElementById('canvasContainer');
-  const r  = canvas.getBoundingClientRect();
-  const sx = r.width  / getW();
-  const sy = r.height / getH();
-  const fs = Math.max(13, brushSize + 8);
-  textInput = document.createElement('input');
-  textInput.style.cssText = `
-    position:absolute;
-    left:${x * sx}px;
-    top:${(y - fs) * sy}px;
-    background:#fff;
-    border:2px solid #0071e3;
-    border-radius:6px;
-    color:#111;
-    font-size:${fs}px;
-    font-family:Inter,Arial,sans-serif;
-    font-weight:bold;
-    outline:none;
-    min-width:140px;
-    max-width:${(getW() - x) * sx}px;
-    z-index:100;
-    padding:4px 8px;
-    box-shadow:0 4px 16px rgba(0,113,227,0.35);
-  `;
-  cc.style.overflow = 'visible';
-  cc.appendChild(textInput);
-  textInput.focus();
-
-  const commit = () => {
-    const txt = textInput ? textInput.value.trim() : '';
-    if (txt) {
-      elements.push({ type:'text', x, y, label:txt, text:txt, color:drawColor, opacity:drawOpacity, size:fs });
-    }
-    if (textInput) { textInput.remove(); textInput = null; }
-    if (cc) cc.style.overflow = 'hidden';
-    drawAll();
-  };
-  textInput.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === 'Escape') commit(); });
-  textInput.addEventListener('blur', commit);
-}
-
-// ── Image upload ─────────────────────────────────────
-function handleImageUpload(e) {
-  const f = e.target.files[0]; if (!f) return;
-  const rd = new FileReader();
-  rd.onload = ev => {
-    const img = new Image();
-    img.onload = () => {
-      const W = getW();
-      const s = Math.min(1, (W * 0.5) / img.width);
-      elements.push({ type:'image', img, x:40, y:40, w:img.width*s, h:img.height*s, opacity:1 });
-      saveUndo(); drawAll(); hideHint();
-    };
-    img.src = ev.target.result;
-  };
-  rd.readAsDataURL(f);
-  e.target.value = '';
-}
-
-// ── Hit test ─────────────────────────────────────────
-function hitTest(el, x, y) {
-  if (el.type === 'section' || el.type === 'rect' || el.type === 'image') {
-    const ex = Math.min(el.x, el.x + (el.w||0));
-    const ey = Math.min(el.y, el.y + (el.h||0));
-    return x>=ex && x<=ex+Math.abs(el.w||160) && y>=ey && y<=ey+Math.abs(el.h||52);
-  }
-  if (el.type === 'text') return x>=el.x-4 && x<=el.x+200 && y>=el.y-20 && y<=el.y+8;
-  return false;
-}
-
-// ── Undo / Delete / Clear ─────────────────────────────
-function saveUndo() {
-  if (!canvas || !canvas.width || !canvas.height) return;
-  try {
-    undoStack.push({
-      id:  ctx.getImageData(0, 0, canvas.width, canvas.height),
-      els: JSON.parse(JSON.stringify(elements.map(e => e.type==='image' ? {...e, img:null} : e)))
-    });
-    if (undoStack.length > 30) undoStack.shift();
-  } catch(err) {}
-}
-
-function undoAction() {
-  if (undoStack.length <= 1) return;
-  undoStack.pop();
-  const p = undoStack[undoStack.length - 1];
-  ctx.putImageData(p.id, 0, 0);
-  elements   = p.els;
-  selectedEl = null;
-  updateSelPanel();
-  drawAll();
-}
-
-function deleteSelected() {
-  if (!selectedEl) return;
-  elements   = elements.filter(e => e !== selectedEl);
-  selectedEl = null;
-  saveUndo(); updateSelPanel(); drawAll();
-}
-
-function clearCanvas() {
-  if (!confirm('Clear the entire canvas?')) return;
-  saveUndo();
-  elements   = [];
-  selectedEl = null;
-  updateSelPanel(); drawAll(); showHint();
-}
-
-function hideHint() {
-  const h = document.getElementById('canvasHint');
-  if (h) h.style.opacity = '0';
-}
-function showHint() {
-  const h = document.getElementById('canvasHint');
-  if (h) h.style.opacity = '1';
-}
-
-</script>
-
-<!--
-═══════════════════════════════════════════════════════
-  GOOGLE APPS SCRIPT — paste at script.google.com
-═══════════════════════════════════════════════════════
-
-function doPost(e) {
-  const data = JSON.parse(e.postData.contents);
-  const ss = SpreadsheetApp.openById('YOUR_SHEET_ID');
-  const sheet = ss.getSheetByName('Leads') || ss.insertSheet('Leads');
-
-  // Add header row if empty
-  if (sheet.getLastRow() === 0) {
-    sheet.appendRow(['Timestamp','Name','Phone','Has Website','Business Type','Description','Mode','Sketch URL','Status']);
-  }
-
-  let imageUrl = '';
-  if (data.canvasImage) {
-    const folder = DriveApp.getFolderById('YOUR_DRIVE_FOLDER_ID');
-    const blob = Utilities.newBlob(
-      Utilities.base64Decode(data.canvasImage),
-      'image/png',
-      `sketch_${(data.name||'unknown').replace(/\s/g,'_')}_${Date.now()}.png`
-    );
-    const file = folder.createFile(blob);
-    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-    imageUrl = file.getUrl();
-  }
-
-  sheet.appendRow([
-    data.timestamp,
-    data.name || '',
-    data.phone || '',
-    data.hasWebsite || '',
-    data.businessType || '',
-    data.websiteDescription || '',
-    data.inputMode || 'text',
-    imageUrl,
-    data.autoSave ? 'partial' : 'complete'
-  ]);
-
-  return ContentService
-    .createTextOutput(JSON.stringify({ ok: true }))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-
-═══════════════════════════════════════════════════════
-  DEPLOY STEPS:
-  1. Extensions → Apps Script → paste above
-  2. Deploy → New Deployment → Web App
-     Execute as: Me | Access: Anyone
-  3. Copy /exec URL → replace YOUR_SCRIPT_ID in post()
-  4. Create Drive folder → copy ID → YOUR_DRIVE_FOLDER_ID
-  5. Copy Sheet ID from URL → YOUR_SHEET_ID
-
-  SHEET COLUMNS:
-  Timestamp | Name | Phone | Has Website | Business Type
-  Description | Mode | Sketch URL | Status (partial/complete)
-═══════════════════════════════════════════════════════
--->
 </body>
 </html>
