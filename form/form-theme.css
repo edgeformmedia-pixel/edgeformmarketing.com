@@ -1,16 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600&family=Newsreader:ital,wght@0,400;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  --form-ink: #071019;
-  --form-paper: #f2f0ec;
-  --form-white: #fbfaf7;
-  --form-line: #c9c9c3;
-  --form-blue: #173b5f;
-  --form-blue-light: #dce1e2;
-  --form-muted: #647078;
-  --accent: #173b5f;
-  --blue: #173b5f;
-  --blue-hover: #0e2a44;
+  --form-ink: #0f172a;
+  --form-paper: #ffffff;
+  --form-white: #ffffff;
+  --form-line: #dfe3ea;
+  --form-blue: #1f4fd1;
+  --form-blue-light: #eaf0fd;
+  --form-muted: #6b7587;
+  --accent: #1f4fd1;
+  --blue: #1f4fd1;
+  --blue-hover: #1740ad;
 }
 
 html,
@@ -24,7 +24,7 @@ body {
   grid-template-rows: 88px minmax(calc(100vh - 150px), auto) 62px;
   background: var(--form-paper);
   color: var(--form-ink);
-  font-family: Manrope, Arial, sans-serif;
+  font-family: Inter, Arial, sans-serif;
 }
 
 .page-bg {
@@ -39,7 +39,7 @@ nav {
   grid-column: 1 / -1;
   height: 88px;
   padding: 0 6vw;
-  background: rgba(242, 240, 236, .9);
+  background: rgba(255, 255, 255, .96);
   border-bottom: 1px solid var(--form-line);
   backdrop-filter: blur(18px);
 }
@@ -63,13 +63,13 @@ nav {
 }
 
 .nav-logo span {
-  font: 500 10px/1.25 'DM Mono', monospace;
+  font: 600 10px/1.25 Inter, Arial, sans-serif; text-transform: uppercase;
   letter-spacing: .13em;
 }
 
 .nav-step-indicator {
   color: var(--form-muted);
-  font: 500 11px 'DM Mono', monospace;
+  font: 600 11px Inter, Arial, sans-serif; text-transform: uppercase;
   letter-spacing: .12em;
 }
 
@@ -88,11 +88,12 @@ nav {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: linear-gradient(180deg, rgba(7,16,25,.2), rgba(7,16,25,.88)), url('../assets/stock2.jpg') center/cover;
+  background: linear-gradient(180deg, rgba(11,23,54,.55), rgba(11,23,54,.94)), url('../assets/stock2.jpg') center/cover;
   color: white;
 }
 
 .form-context::after {
+  display: none;
   content: '';
   position: absolute;
   width: 420px;
@@ -106,7 +107,7 @@ nav {
 
 .context-kicker,
 .context-meta span {
-  font: 500 10px 'DM Mono', monospace;
+  font: 600 10px Inter, Arial, sans-serif; text-transform: uppercase;
   letter-spacing: .14em;
   text-transform: uppercase;
 }
@@ -118,12 +119,14 @@ nav {
 .form-context h1 {
   max-width: 520px;
   margin: auto 0 26px;
-  font: 400 clamp(48px, 5vw, 78px)/.88 Newsreader, Georgia, serif;
-  letter-spacing: -.055em;
+  font: 600 clamp(48px, 5vw, 78px)/.88 Inter, Arial, sans-serif;
+  letter-spacing: -.035em;
+  line-height: 1.04;
 }
 
 .form-context h1 em {
-  font-weight: 400;
+  font-style: normal;
+  font-weight: 600;
   color: #c4d3df;
 }
 
@@ -169,7 +172,7 @@ nav {
   width: 30px;
   height: 3px;
   border-radius: 0;
-  background: #d4d5d1;
+  background: #dfe3ea;
 }
 
 .dot.active {
@@ -179,7 +182,7 @@ nav {
 }
 
 .dot.done {
-  background: #899ba8;
+  background: #8fa6e8;
 }
 
 .form-card,
@@ -215,7 +218,7 @@ nav {
 .step-eyebrow {
   margin-bottom: 18px;
   color: var(--form-blue);
-  font: 500 11px 'DM Mono', monospace;
+  font: 600 11px Inter, Arial, sans-serif; text-transform: uppercase;
   letter-spacing: .16em;
 }
 
@@ -223,13 +226,15 @@ nav {
   max-width: 720px;
   margin-bottom: 15px;
   color: var(--form-ink);
-  font: 400 clamp(42px, 5vw, 70px)/.94 Newsreader, Georgia, serif;
-  letter-spacing: -.045em;
+  font: 600 clamp(42px, 5vw, 70px)/.94 Inter, Arial, sans-serif;
+  letter-spacing: -.03em;
+  line-height: 1.08;
 }
 
 .step-title em {
   color: var(--form-blue);
-  font-weight: 400;
+  font-style: normal;
+  font-weight: 600;
 }
 
 .step-sub {
@@ -252,7 +257,7 @@ nav {
 .sections-label,
 .opt-label {
   color: #59666e;
-  font: 500 11px 'DM Mono', monospace;
+  font: 600 11px Inter, Arial, sans-serif; text-transform: uppercase;
   letter-spacing: .1em;
 }
 
@@ -262,9 +267,9 @@ nav {
   color: var(--form-ink);
   background: transparent;
   border: 0;
-  border-bottom: 1px solid #9fa7a4;
+  border-bottom: 1px solid #c3cad6;
   border-radius: 0;
-  font-family: Manrope, Arial, sans-serif;
+  font-family: Inter, Arial, sans-serif;
   font-size: 17px;
 }
 
@@ -294,7 +299,7 @@ textarea.input-field {
   background: var(--form-white);
   border: 1px solid var(--form-line);
   border-radius: 0;
-  font-family: Manrope, Arial, sans-serif;
+  font-family: Inter, Arial, sans-serif;
   font-size: 16px;
   text-align: left;
 }
@@ -306,7 +311,7 @@ textarea.input-field {
 .choice-btn:hover {
   color: var(--form-ink);
   border-color: var(--form-blue);
-  transform: translateY(-5px);
+  transform: none;
   box-shadow: 0 18px 38px rgba(7,16,25,.08);
 }
 
@@ -321,25 +326,25 @@ textarea.input-field {
   margin-top: 18px;
   padding: 17px 28px;
   color: white;
-  background: var(--form-ink);
+  background: var(--form-blue);
   border-radius: 0;
-  font-family: Manrope, Arial, sans-serif;
+  font-family: Inter, Arial, sans-serif;
   font-size: 14px;
   font-weight: 600;
   letter-spacing: .02em;
 }
 
 .btn-primary:hover {
-  background: var(--form-blue);
-  transform: translateY(-3px);
-  box-shadow: 0 14px 34px rgba(23,59,95,.2);
+  background: var(--blue-hover);
+  transform: none;
+  box-shadow: none;
 }
 
 .btn-back {
   width: auto;
   margin: 18px 0 0 18px;
   color: #6f7976;
-  font-family: Manrope, Arial, sans-serif;
+  font-family: Inter, Arial, sans-serif;
   font-size: 13px;
 }
 
@@ -361,7 +366,7 @@ textarea.input-field {
 
 .stat-number {
   color: var(--form-blue);
-  font: 400 72px/1 Newsreader, Georgia, serif;
+  font: 600 72px/1 Inter, Arial, sans-serif;
 }
 
 .stat-text,
@@ -387,7 +392,7 @@ textarea.input-field {
 }
 
 .mode-toggle {
-  background: #e2e4e1;
+  background: #f4f6f9;
   border: 1px solid var(--form-line);
   border-radius: 0;
 }
@@ -395,7 +400,7 @@ textarea.input-field {
 .mode-btn {
   color: #69736f;
   border-radius: 0;
-  font-family: Manrope, Arial, sans-serif;
+  font-family: Inter, Arial, sans-serif;
 }
 
 .mode-btn.active {
@@ -448,7 +453,7 @@ textarea.input-field {
 
 .options-row,
 .sel-panel {
-  background: #e5e7e4;
+  background: #f4f6f9;
   border-color: var(--form-line);
   border-radius: 0;
 }
@@ -491,7 +496,7 @@ textarea.input-field {
   background: var(--form-blue-light);
   border-color: #9cabb3;
   border-radius: 0;
-  font: 500 11px 'DM Mono', monospace;
+  font: 600 11px Inter, Arial, sans-serif; text-transform: uppercase;
 }
 
 footer {
@@ -500,7 +505,7 @@ footer {
   color: #77817d;
   background: var(--form-paper);
   border-top: 1px solid var(--form-line);
-  font: 400 12px 'DM Mono', monospace;
+  font: 600 12px Inter, Arial, sans-serif; text-transform: uppercase;
 }
 
 @media (max-width: 900px) {
@@ -580,4 +585,4 @@ footer {
   }
 }
 
-.brand-logo{display:block;height:34px;width:auto;max-width:none}@media(max-width:760px){.brand-logo{height:26px}}
+.brand-logo{display:block;height:30px;width:auto;max-width:none}@media(max-width:760px){.brand-logo{height:24px}}
