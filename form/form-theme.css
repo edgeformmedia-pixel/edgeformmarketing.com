@@ -579,3 +579,5 @@ footer {
     transition-duration: .01ms !important;
   }
 }
+
+.brand-logo{display:block;height:34px;width:auto;max-width:none}@media(max-width:760px){.brand-logo{height:26px}}
